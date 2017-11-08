@@ -231,6 +231,11 @@ class API
         }
     }
 
+    public function getMethod()
+    {
+        return $this->arguments['method'];
+    }
+
     private function getCleanValueFromArguments($param, $required=false)
     {
         if ($required && !isset($this->arguments[$param]))
