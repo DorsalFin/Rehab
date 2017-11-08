@@ -210,6 +210,27 @@ class API
         return json_encode($arr);
     }
 
+    function API($_arguments)
+    {
+        $this->arguments = $_arguments;
+
+        $this->db = new pgConnect();
+        if(isset($db->failMessage))
+        {
+            die($this->JsonError($db->failMessage));
+        }
+
+        if (array_key_exists('method', $this->arguments) == false || trim($this->arguments['method'])=='')
+        {
+            die($this->JsonError('you have to let us know which method you want to call'));
+        }
+
+        if (!in_array($this->arguments['method'], $this->getValidMethodList()))
+        {
+            die($this->JsonError('the method '.$this->arguments['method']. ' is not valid'));
+        }
+    }
+
     private function getCleanValueFromArguments($param, $required=false)
     {
         if ($required && !isset($this->arguments[$param]))
